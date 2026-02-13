@@ -6,7 +6,7 @@
 #    By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 15:54:22 by mgarnier          #+#    #+#              #
-#    Updated: 2026/02/12 15:59:27 by mgarnier         ###   ########.fr        #
+#    Updated: 2026/02/13 16:41:49 by mgarnier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,19 +14,23 @@ CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -g
 
 # COLOR
-RED     := \033[31m
-GREEN   := \033[38;5;46m
+GREEN   := \033[1;38;5;46m
 RESET   := \033[0m
 
 # DIR
 DIR			= sources/
+DIR_ERROR	= sources/error_management/
+DIR_PARSE	= sources/parsing/
 OBJ_DIR		= objects
 
 # MINISHELL
 NAME		= philo
 HEADER		= -Iincludes
 
-SRC			= $(DIR)main.c
+SRC			= $(DIR)main.c \
+				$(DIR_ERROR)error.c \
+				$(DIR_PARSE)utils.c \
+				$(DIR_PARSE)parse_args.c
 
 OBJ			= $(SRC:%.c=$(OBJ_DIR)/%.o)
 

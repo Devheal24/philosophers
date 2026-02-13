@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/13 16:41:27 by mgarnier         ###   ########.fr       */
+/*   Created: 2026/02/13 11:07:15 by mgarnier          #+#    #+#             */
+/*   Updated: 2026/02/13 15:40:39 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "philo.h"
 
-# include <unistd.h>
-# include <limits.h>
-# include <stdio.h>
-
-# define RED "\033[1;31m"
-# define RESET "\033[0m"
-
-// PARSING
-int	args_not_valid(char **argv);
-
-// ERROR MANAGEMENT
-int	error_number_of_arguments(int argc);
-
-// UTIlS
-int	is_space(char c);
-int	ft_strlen(char *s);
-
-#endif
+int	error_number_of_arguments(int argc)
+{
+	if (argc < 5)
+		printf("There are " RED "not enough" RESET " arguments\n");
+	if (argc > 6)
+		printf("There are " RED "too much" RESET " arguments\n");
+	if (argc < 5 || argc > 6)
+		return (1);
+	return (0);
+}

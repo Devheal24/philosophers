@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/13 16:41:27 by mgarnier         ###   ########.fr       */
+/*   Created: 2026/02/13 15:31:20 by mgarnier          #+#    #+#             */
+/*   Updated: 2026/02/13 15:31:44 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "philo.h"
 
-# include <unistd.h>
-# include <limits.h>
-# include <stdio.h>
+int	ft_strlen(char *s)
+{
+	int	i;
 
-# define RED "\033[1;31m"
-# define RESET "\033[0m"
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
 
-// PARSING
-int	args_not_valid(char **argv);
-
-// ERROR MANAGEMENT
-int	error_number_of_arguments(int argc);
-
-// UTIlS
-int	is_space(char c);
-int	ft_strlen(char *s);
-
-#endif
+int	is_space(char c)
+{
+	if ((c >= 9 && c <= 13) || c == ' ')
+		return (1);
+	return (0);
+}
