@@ -6,12 +6,12 @@
 #    By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 15:54:22 by mgarnier          #+#    #+#              #
-#    Updated: 2026/02/13 16:41:49 by mgarnier         ###   ########.fr        #
+#    Updated: 2026/02/14 22:40:57 by mgarnier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror -pthread -fsanitize=address -g
 
 # COLOR
 GREEN   := \033[1;38;5;46m

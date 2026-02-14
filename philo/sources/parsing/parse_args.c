@@ -6,11 +6,13 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 16:40:40 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/13 16:41:05 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/14 22:15:03 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdio.h>
+#include <limits.h>
 
 static int	is_not_a_valid_number(char *argv)
 {

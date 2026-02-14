@@ -6,11 +6,12 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 11:07:15 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/13 15:40:39 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/14 18:13:53 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdio.h>
 
 int	error_number_of_arguments(int argc)
 {
