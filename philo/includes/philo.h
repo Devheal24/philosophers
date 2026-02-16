@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/16 22:21:29 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:44:19 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 
 # define THOUSAND 1000
 
-typedef struct s_philo
+
+typedef struct s_data
 {
 	int				nb_philo;
 	int				time_to_die;
@@ -36,17 +37,21 @@ typedef struct s_philo
 	int				time_to_sleep;
 	long			start_time;
 	int				rotation;
-	pthread_t		*philo;
-	int				id_philo;
 	int				died;
 	pthread_mutex_t	mutex;
 	pthread_mutex_t	*fork;
+}	t_data;
+
+typedef struct s_philo
+{
+	t_data	*data;
+	int		id;
 }	t_philo;
 
 // PARSING
 int				args_not_valid(char **argv);
-t_philo			*initialize_structure(char **argv, int argc);
-void			free_structure(t_philo *data);
+t_data			*initialize_structure(char **argv, int argc);
+void			free_structure(t_data *data);
 
 // ERROR MANAGEMENT
 int				error_number_of_arguments(int argc);
