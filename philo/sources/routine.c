@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/16 21:59:00 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/16 22:33:55 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,19 @@ int	is_eating(t_philo *data, int id)
 	unsigned long	time_start;
 
 	timestamp = get_time_in_ms();
+	pthread_mutex_lock(&data->fork[id]);
 	time_start = timestamp - data->start_time;
-	printf(TRY"[%lu ms] philo [%d] has taken a fork\n"RESET, time_start, id);
+	printf(PURPLE"[%lu ms] philo [%d] has taken a fork\n"RESET, time_start, id);
 	printf(GREEN"[%lu ms] philo [%d] is eating\n"RESET, time_start, id);
 	if (data->time_to_eat > data->time_to_die)
 	{
 		usleep(data->time_to_die * THOUSAND);
+		pthread_mutex_unlock(&data->fork[id]);
 		return (1);
 	}
 	else
 		usleep(data->time_to_eat * THOUSAND);
+	pthread_mutex_unlock(&data->fork[id]);
 	return (0);
 }
 
@@ -77,7 +80,11 @@ void	*routine(void *arg)
 		rotation--;
 	}
 	timestamp = get_time_in_ms();
-	if (rotation != 0)
+	time_start = timestamp - data->start_time;
+	pthread_mutex_lock(&data->mutex);
+	if (data->died == 0)
 		printf(RED"[%lu ms] philo [%d] died\n"RESET, time_start, id);
+	data->died = 1;
+	pthread_mutex_unlock(&data->mutex);
 	return (NULL);
 }

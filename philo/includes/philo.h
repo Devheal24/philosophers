@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/16 19:27:04 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/16 22:21:29 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/time.h>
 
 # define RED "\033[1;31m"
-# define TRY "\033[35m"
+# define PURPLE "\033[35m"
 # define BLUE "\033[34m"
 # define GREEN "\033[1;32m"
 # define YELLOW "\033[33m"
@@ -38,6 +38,7 @@ typedef struct s_philo
 	int				rotation;
 	pthread_t		*philo;
 	int				id_philo;
+	int				died;
 	pthread_mutex_t	mutex;
 	pthread_mutex_t	*fork;
 }	t_philo;

@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:27:54 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/16 19:27:18 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/16 22:21:51 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_philo	*initialize_structure(char **argv, int argc)
 	data = malloc(sizeof(t_philo));
 	if (!data)
 		return (NULL);
+	data->died = 0;
 	data->id_philo = 1;
 	data->nb_philo = ft_atou(argv[1]);
 	data->time_to_die = ft_atou(argv[2]);
