@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:31:20 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/14 18:38:43 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/16 19:26:57 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_space(char c)
 
 unsigned int	ft_atou(char *tab)
 {
-	int	i;
+	int				i;
 	unsigned int	result;
 
 	i = 0;
