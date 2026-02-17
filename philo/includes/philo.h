@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/16 23:44:19 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/17 12:45:02 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <sys/time.h>
+# include <limits.h>
 
 # define RED "\033[1;31m"
 # define PURPLE "\033[35m"
@@ -28,17 +29,18 @@
 
 # define THOUSAND 1000
 
-
 typedef struct s_data
 {
 	int				nb_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	long			start_time;
+	unsigned long	time_to_die;
+	unsigned long	time_to_eat;
+	unsigned long	time_to_sleep;
+	unsigned long	start_time;
 	int				rotation;
 	int				died;
+	pthread_t		*threads;
 	pthread_mutex_t	mutex;
+	pthread_mutex_t	wait;
 	pthread_mutex_t	*fork;
 }	t_data;
 
@@ -59,7 +61,7 @@ int				error_number_of_arguments(int argc);
 // UTIlS
 int				is_space(char c);
 int				ft_strlen(char *s);
-unsigned int	ft_atou(char *tab);
+unsigned long	ft_atou(char *tab);
 
 // GET TIME
 unsigned long	get_time_in_ms(void);

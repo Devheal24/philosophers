@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:31:20 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/16 19:26:57 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/17 10:11:12 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	is_space(char c)
 	return (0);
 }
 
-unsigned int	ft_atou(char *tab)
+unsigned long	ft_atou(char *tab)
 {
 	int				i;
-	unsigned int	result;
+	unsigned long	result;
 
 	i = 0;
 	result = 0;
