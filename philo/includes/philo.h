@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/17 12:45:02 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:37:13 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define PURPLE "\033[35m"
 # define BLUE "\033[34m"
 # define GREEN "\033[1;32m"
-# define YELLOW "\033[33m"
+# define BROWN "\033[33m"
 # define RESET "\033[0m"
 
 # define THOUSAND 1000
@@ -40,14 +40,15 @@ typedef struct s_data
 	int				died;
 	pthread_t		*threads;
 	pthread_mutex_t	mutex;
-	pthread_mutex_t	wait;
+	pthread_mutex_t	print;
 	pthread_mutex_t	*fork;
 }	t_data;
 
 typedef struct s_philo
 {
-	t_data	*data;
-	int		id;
+	t_data			*data;
+	int				id;
+	unsigned long	start_rotation;
 }	t_philo;
 
 // PARSING

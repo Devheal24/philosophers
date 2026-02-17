@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:27:54 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/17 13:15:58 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:39:49 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_structure(t_data *data)
 		i++;
 	}
 	pthread_mutex_destroy(&data->mutex);
-	pthread_mutex_destroy(&data->wait);
+	pthread_mutex_destroy(&data->print);
 	if (data->threads)
 		free(data->threads);
 	if (data->fork)
@@ -46,8 +46,8 @@ t_data	*initialize_structure(char **argv, int argc)
 	data->time_to_eat = ft_atou(argv[3]);
 	data->time_to_sleep = ft_atou(argv[4]);
 	data->start_time = get_time_in_ms();
-	pthread_mutex_init(&data->wait, NULL);
 	pthread_mutex_init(&data->mutex, NULL);
+	pthread_mutex_init(&data->print, NULL);
 	data->fork = NULL;
 	data->threads = NULL;
 	if (argc == 6)
