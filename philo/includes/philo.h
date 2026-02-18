@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 18:55:33 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 19:34:05 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,22 @@ typedef struct s_philo
 
 // PARSING
 int				args_not_valid(char **argv);
-t_data			*initialize_structure(char **argv, int argc);
-void			free_structure(t_data *data);
-
-// ERROR MANAGEMENT
+t_data			*free_structure(t_data *data);
 int				error_number_of_arguments(int argc);
+t_data			*initialize_structure(char **argv, int argc);
 
 // UTIlS
 int				is_space(char c);
 int				ft_strlen(char *s);
 unsigned long	ft_atou(char *tab);
-void			message(t_data *data, int id, int step);
 
 // GET TIME
 unsigned long	get_time_in_ms(void);
 
+// ROUTINE
 void			*routine(void *arg);
+void			message(t_data *data, int id, int step);
+void			lock_fork(t_data *data, t_philo *philo, int first);
+void			unlock_fork(t_data *data, t_philo *philo, int first);
 
 #endif

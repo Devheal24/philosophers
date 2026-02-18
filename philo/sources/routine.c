@@ -6,70 +6,29 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 19:11:37 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 19:39:07 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	lock_fork(t_data *data, t_philo *philo, int first)
+int	a_philo_is_die(t_data *data, t_philo *philo, int code)
 {
-	int	left;
-	int	right;
-
-	left = philo->id;
-	right = (philo->id + 1) % data->nb_philo;
-	if (philo->id == 0 || philo->id + 1 == data->nb_philo)
-		usleep(100);
-	if (first == 1)
+	if (data->died != 0)
 	{
-		if (philo->id % 2 == 1)
-			pthread_mutex_lock(&data->fork[left]);
-		else
-			pthread_mutex_lock(&data->fork[right]);
+		unlock_fork(data, philo, code);
+		pthread_mutex_unlock(&data->mutex);
+		return (1);
 	}
-	else
-	{
-		if (philo->id % 2 == 1)
-			pthread_mutex_lock(&data->fork[right]);
-		else
-			pthread_mutex_lock(&data->fork[left]);
-	}
-}
-
-void	unlock_fork(t_data *data, t_philo *philo, int first)
-{
-	int	left;
-	int	right;
-
-	left = philo->id;
-	right = (philo->id + 1) % data->nb_philo;
-	if (first == 0)
-		;
-	else if (first == 1)
-	{
-		if (philo->id % 2 == 1)
-			pthread_mutex_unlock(&data->fork[left]);
-		else
-			pthread_mutex_unlock(&data->fork[right]);
-	}
-	else
-	{
-		pthread_mutex_unlock(&data->fork[right]);
-		pthread_mutex_unlock(&data->fork[left]);
-	}
+	return (0);
 }
 
 int	is_eating(t_data *data, t_philo *philo)
 {
 	lock_fork(data, philo, 1);
 	pthread_mutex_lock(&data->mutex);
-	if (data->died != 0)
-	{
-		unlock_fork(data, philo, 1);
-		pthread_mutex_unlock(&data->mutex);
+	if (a_philo_is_die(data, philo, 1))
 		return (1);
-	}
 	message(data, philo->id, FORK);
 	pthread_mutex_unlock(&data->mutex);
 	if (data->nb_philo == 1)
@@ -79,12 +38,8 @@ int	is_eating(t_data *data, t_philo *philo)
 	}
 	lock_fork(data, philo, 2);
 	pthread_mutex_lock(&data->mutex);
-	if (data->died != 0)
-	{
-		unlock_fork(data, philo, 2);
-		pthread_mutex_unlock(&data->mutex);
+	if (a_philo_is_die(data, philo, 2))
 		return (1);
-	}
 	message(data, philo->id, FORK);
 	message(data, philo->id, EAT);
 	philo->start_rotation = get_time_in_ms();

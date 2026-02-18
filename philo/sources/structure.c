@@ -6,13 +6,13 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:27:54 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 13:01:26 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 19:30:15 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	free_structure(t_data *data)
+t_data	*free_structure(t_data *data)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ void	free_structure(t_data *data)
 	if (data->fork)
 		free(data->fork);
 	free(data);
-	data = NULL;
+	return (NULL);
 }
 
 t_data	*initialize_structure(char **argv, int argc)
@@ -46,26 +46,14 @@ t_data	*initialize_structure(char **argv, int argc)
 	data->time_to_sleep = ft_atou(argv[4]);
 	data->start_time = get_time_in_ms();
 	pthread_mutex_init(&data->mutex, NULL);
-	data->fork = NULL;
-	data->threads = NULL;
-	if (argc == 6)
-		data->rotation = ft_atou(argv[5]);
-	else
-		data->rotation = -1;
+	data->rotation = (argc == 6) * ft_atou(argv[5]) + (argc == 5) * -1;
 	data->fork = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
-	if (!data->fork)
-	{
-		free_structure(data);
-		return (NULL);
-	}
-	i = 0;
-	while (i < data->nb_philo)
-		pthread_mutex_init(&data->fork[i++], NULL);
 	data->threads = malloc(sizeof(pthread_t) * data->nb_philo);
-	if (!data->threads)
-	{
-		free_structure(data);
-		return (NULL);
-	}
+	if (!data->fork || !data->threads)
+		data = free_structure(data);
+	i = 0;
+	if (data)
+		while (i < data->nb_philo)
+			pthread_mutex_init(&data->fork[i++], NULL);
 	return (data);
 }
