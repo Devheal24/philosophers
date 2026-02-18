@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 14:52:36 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:37:41 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	monitoring(t_data *data, t_philo *philo)
 			{
 				timing -= data->start_time;
 				data->died = 1;
-				message(philo[i].id, timing, DIE);
+				message(data, philo, DIE);
 				pthread_mutex_unlock(&data->mutex);
 				return ;
 			}
