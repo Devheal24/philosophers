@@ -6,21 +6,13 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 19:02:18 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 19:40:59 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-unsigned long	get_time_in_ms(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
-}
-
-void	monitoring(t_data *data, t_philo *philo)
+static void	monitoring(t_data *data, t_philo *philo)
 {
 	int	i;
 
@@ -48,7 +40,7 @@ void	monitoring(t_data *data, t_philo *philo)
 	}
 }
 
-void	*start_thread(t_data *data, t_philo *philo)
+static void	*start_thread(t_data *data, t_philo *philo)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:31:20 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/17 10:11:12 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 19:41:06 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,12 @@ unsigned long	ft_atou(char *tab)
 		i++;
 	}
 	return (result);
+}
+
+unsigned long	get_time_in_ms(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
 }

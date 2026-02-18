@@ -6,7 +6,7 @@
 #    By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 15:54:22 by mgarnier          #+#    #+#              #
-#    Updated: 2026/02/18 19:34:40 by mgarnier         ###   ########.fr        #
+#    Updated: 2026/02/18 19:42:52 by mgarnier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ RESET   := \033[0m
 DIR			= sources/
 DIR_ERROR	= sources/error_management/
 DIR_PARSE	= sources/parsing/
+DIR_ROUTINE = sources/routine/
 OBJ_DIR		= objects
 
 # MINISHELL
@@ -28,10 +29,10 @@ NAME		= philo
 HEADER		= -Iincludes
 
 SRC			= $(DIR)main.c \
-				$(DIR)structure.c \
-				$(DIR)routine.c \
-				$(DIR)message.c \
-				$(DIR)manage_fork.c \
+				$(DIR_PARSE)structure.c \
+				$(DIR_ROUTINE)routine.c \
+				$(DIR_ROUTINE)message.c \
+				$(DIR_ROUTINE)manage_fork.c \
 				$(DIR_ERROR)error.c \
 				$(DIR_PARSE)utils.c \
 				$(DIR_PARSE)parse_args.c

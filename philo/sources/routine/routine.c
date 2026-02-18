@@ -6,13 +6,13 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 19:39:07 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 19:40:18 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	a_philo_is_die(t_data *data, t_philo *philo, int code)
+static int	a_philo_is_die(t_data *data, t_philo *philo, int code)
 {
 	if (data->died != 0)
 	{
@@ -23,7 +23,7 @@ int	a_philo_is_die(t_data *data, t_philo *philo, int code)
 	return (0);
 }
 
-int	is_eating(t_data *data, t_philo *philo)
+static int	is_eating(t_data *data, t_philo *philo)
 {
 	lock_fork(data, philo, 1);
 	pthread_mutex_lock(&data->mutex);
@@ -49,7 +49,7 @@ int	is_eating(t_data *data, t_philo *philo)
 	return (0);
 }
 
-int	is_sleeping(t_data *data, t_philo *philo)
+static int	is_sleeping(t_data *data, t_philo *philo)
 {
 	pthread_mutex_lock(&data->mutex);
 	if (data->died != 0)
@@ -63,7 +63,7 @@ int	is_sleeping(t_data *data, t_philo *philo)
 	return (0);
 }
 
-int	is_thinking(t_data *data, t_philo *philo)
+static int	is_thinking(t_data *data, t_philo *philo)
 {
 	pthread_mutex_lock(&data->mutex);
 	if (data->died != 0)
