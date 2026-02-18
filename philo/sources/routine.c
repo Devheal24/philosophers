@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 19:07:42 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 19:11:37 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	lock_fork(t_data *data, t_philo *philo, int first)
 
 	left = philo->id;
 	right = (philo->id + 1) % data->nb_philo;
-	usleep(philo->id * 10);
+	if (philo->id == 0 || philo->id + 1 == data->nb_philo)
+		usleep(100);
 	if (first == 1)
 	{
 		if (philo->id % 2 == 1)
