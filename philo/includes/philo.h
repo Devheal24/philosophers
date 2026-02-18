@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 15:05:01 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 18:55:33 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int				error_number_of_arguments(int argc);
 int				is_space(char c);
 int				ft_strlen(char *s);
 unsigned long	ft_atou(char *tab);
-void			message(t_data *data, t_philo *philo, int step);
+void			message(t_data *data, int id, int step);
 
 // GET TIME
 unsigned long	get_time_in_ms(void);

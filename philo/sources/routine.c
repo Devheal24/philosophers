@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 15:38:57 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 19:07:42 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	lock_fork(t_data *data, t_philo *philo, int first)
 {
-	int				left;
-	int				right;
+	int	left;
+	int	right;
 
 	left = philo->id;
 	right = (philo->id + 1) % data->nb_philo;
+	usleep(philo->id * 10);
 	if (first == 1)
 	{
 		if (philo->id % 2 == 1)
@@ -37,8 +38,8 @@ void	lock_fork(t_data *data, t_philo *philo, int first)
 
 void	unlock_fork(t_data *data, t_philo *philo, int first)
 {
-	int				left;
-	int				right;
+	int	left;
+	int	right;
 
 	left = philo->id;
 	right = (philo->id + 1) % data->nb_philo;
@@ -68,14 +69,13 @@ int	is_eating(t_data *data, t_philo *philo)
 		pthread_mutex_unlock(&data->mutex);
 		return (1);
 	}
-	message(data, philo, FORK);
+	message(data, philo->id, FORK);
 	pthread_mutex_unlock(&data->mutex);
-	// if (data->nb_philo > 1)
-	// {
-	// 	unlock_fork(data, philo, 1);
-	// 	usleep(data->time_to_die);
-	// 	return (1);
-	// }
+	if (data->nb_philo == 1)
+	{
+		unlock_fork(data, philo, 1);
+		return (1);
+	}
 	lock_fork(data, philo, 2);
 	pthread_mutex_lock(&data->mutex);
 	if (data->died != 0)
@@ -84,8 +84,8 @@ int	is_eating(t_data *data, t_philo *philo)
 		pthread_mutex_unlock(&data->mutex);
 		return (1);
 	}
-	message(data, philo, FORK);
-	message(data, philo, EAT);
+	message(data, philo->id, FORK);
+	message(data, philo->id, EAT);
 	philo->start_rotation = get_time_in_ms();
 	pthread_mutex_unlock(&data->mutex);
 	usleep(data->time_to_eat * THOUSAND);
@@ -101,7 +101,7 @@ int	is_sleeping(t_data *data, t_philo *philo)
 		pthread_mutex_unlock(&data->mutex);
 		return (1);
 	}
-	message(data, philo, SLEEP);
+	message(data, philo->id, SLEEP);
 	pthread_mutex_unlock(&data->mutex);
 	usleep(data->time_to_sleep * THOUSAND);
 	return (0);
@@ -115,7 +115,7 @@ int	is_thinking(t_data *data, t_philo *philo)
 		pthread_mutex_unlock(&data->mutex);
 		return (1);
 	}
-	message(data, philo, THINK);
+	message(data, philo->id, THINK);
 	pthread_mutex_unlock(&data->mutex);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 16:37:41 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 19:02:18 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ unsigned long	get_time_in_ms(void)
 
 void	monitoring(t_data *data, t_philo *philo)
 {
-	unsigned long	timing;
-	int				i;
+	int	i;
 
 	while (data->nb_philo > 0)
 	{
@@ -31,17 +30,15 @@ void	monitoring(t_data *data, t_philo *philo)
 		pthread_mutex_lock(&data->mutex);
 		while (i < data->nb_philo)
 		{
-			if (philo[data->nb_philo - 1].number_of_eating == 0)
+			if (philo[i].number_of_eating == 0)
 			{
 				pthread_mutex_unlock(&data->mutex);
 				return ;
 			}
-			timing = get_time_in_ms();
-			if (timing > philo[i].start_rotation + data->time_to_die)
+			if (get_time_in_ms() > philo[i].start_rotation + data->time_to_die)
 			{
-				timing -= data->start_time;
 				data->died = 1;
-				message(data, philo, DIE);
+				message(data, philo[i].id, DIE);
 				pthread_mutex_unlock(&data->mutex);
 				return ;
 			}
@@ -62,6 +59,7 @@ void	*start_thread(t_data *data, t_philo *philo)
 		philo[i].id = i;
 		philo[i].data = data;
 		philo[i].start_rotation = data->start_time + data->time_to_die;
+		philo[i].number_of_eating = -1;
 		pthread_create(&data->threads[i], NULL, routine, &philo[i]);
 		i++;
 	}
