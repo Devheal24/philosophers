@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 12:15:39 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 13:09:13 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ unsigned long	get_time_in_ms(void)
 
 void	monitoring(t_data *data, t_philo *philo)
 {
-	unsigned long	timestamp;
+	unsigned long	timing;
 	int				i;
 
 	while (data->nb_philo > 0)
@@ -31,11 +31,12 @@ void	monitoring(t_data *data, t_philo *philo)
 		while (i < data->nb_philo)
 		{
 			pthread_mutex_lock(&data->mutex);
-			timestamp = get_time_in_ms();
-			if (timestamp > philo[i].start_rotation + data->time_to_die)
+			timing = get_time_in_ms();
+			if (timing > philo[i].start_rotation + data->time_to_die)
 			{
+				timing -= data->start_time;
 				data->died = 1;
-				printf(RED"[%lu ms] philo [%d] died\n"RESET, timestamp - data->start_time, philo[i].id + 1);
+				printf(RED"[%lu ms] philo [%d] died\n"RESET, timing, philo[i].id + 1);
 				pthread_mutex_unlock(&data->mutex);
 				return ;
 			}

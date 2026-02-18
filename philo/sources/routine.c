@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 12:57:00 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 13:10:41 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,80 +60,67 @@ void	unlock_fork(t_data *data, t_philo *philo, int first)
 
 int	is_eating(t_data *data, t_philo *philo)
 {
-	unsigned long	timestamp;
+	unsigned long	timing;
 
 	lock_fork(data, philo, 1);
 	pthread_mutex_lock(&data->mutex);
-	if (data->died == 0)
-	{
-		timestamp = get_time_in_ms() - data->start_time;
-		printf(PURPLE"[%lu ms] philo [%d] has taken a fork\n"RESET, timestamp, philo->id + 1);
-	}
-	else
+	if (data->died != 0)
 	{
 		unlock_fork(data, philo, 1);
 		pthread_mutex_unlock(&data->mutex);
 		return (1);
 	}
+	timing = get_time_in_ms() - data->start_time;
+	printf(PURPLE"[%lu ms] philo [%d] has taken a fork\n"RESET, timing, philo->id + 1);
 	pthread_mutex_unlock(&data->mutex);
 	lock_fork(data, philo, 2);
 	pthread_mutex_lock(&data->mutex);
-	if (data->died == 0)
-	{
-		timestamp = get_time_in_ms() - data->start_time;
-		printf(PURPLE"[%lu ms] philo [%d] has taken a fork\n"RESET, timestamp, philo->id + 1);
-		printf(GREEN"[%lu ms] philo [%d] is eating\n"RESET, timestamp, philo->id + 1);
-		philo->start_rotation = get_time_in_ms();
-		pthread_mutex_unlock(&data->mutex);
-		usleep(data->time_to_eat * THOUSAND);
-		unlock_fork(data, philo, 2);
-		usleep(100);
-	}
-	else
+	if (data->died != 0)
 	{
 		unlock_fork(data, philo, 2);
 		pthread_mutex_unlock(&data->mutex);
 		return (1);
 	}
+	timing = get_time_in_ms() - data->start_time;
+	printf(PURPLE"[%lu ms] philo [%d] has taken a fork\n"RESET, timing, philo->id + 1);
+	printf(GREEN"[%lu ms] philo [%d] is eating\n"RESET, timing, philo->id + 1);
+	philo->start_rotation = get_time_in_ms();
+	pthread_mutex_unlock(&data->mutex);
+	usleep(data->time_to_eat * THOUSAND);
+	unlock_fork(data, philo, 2);
 	return (0);
 }
 
 int	is_sleeping(t_data *data, t_philo *philo)
 {
-	unsigned long	timestamp;
+	unsigned long	timing;
 
 	pthread_mutex_lock(&data->mutex);
-	if (data->died == 0)
-	{
-		timestamp = get_time_in_ms() - data->start_time;
-		printf(BLUE"[%lu ms] philo [%d] is sleeping\n"RESET, timestamp, philo->id + 1);
-		pthread_mutex_unlock(&data->mutex);
-		usleep(data->time_to_sleep * THOUSAND);
-	}
-	else
+	if (data->died != 0)
 	{
 		pthread_mutex_unlock(&data->mutex);
 		return (1);
 	}
+	timing = get_time_in_ms() - data->start_time;
+	printf(BLUE"[%lu ms] philo [%d] is sleeping\n"RESET, timing, philo->id + 1);
+	pthread_mutex_unlock(&data->mutex);
+	usleep(data->time_to_sleep * THOUSAND);
 	return (0);
 }
 
 int	is_thinking(t_data *data, t_philo *philo)
 {
-	unsigned long	timestamp;
+	unsigned long	timing;
 
 	pthread_mutex_lock(&data->mutex);
-	if (data->died == 0)
-	{
-		timestamp = get_time_in_ms() - data->start_time;
-		printf(BROWN"[%lu ms] philo [%d] is thinking\n"RESET, timestamp, philo->id + 1);
-		pthread_mutex_unlock(&data->mutex);
-	}
-	else
+	if (data->died != 0)
 	{
 		pthread_mutex_unlock(&data->mutex);
 		return (1);
 	}
+	timing = get_time_in_ms() - data->start_time;
+	printf(BROWN"[%lu ms] philo [%d] is thinking\n"RESET, timing, philo->id + 1);
+	pthread_mutex_unlock(&data->mutex);
 	return (0);
 }
 
