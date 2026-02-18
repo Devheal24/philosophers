@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 13:01:16 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/18 15:05:01 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@
 # define RESET "\033[0m"
 
 # define THOUSAND 1000
+# define THINK 0
+# define FORK 1
+# define EAT 2
+# define SLEEP 3
+# define DIE 4
 
 typedef struct s_data
 {
@@ -47,6 +52,7 @@ typedef struct s_philo
 {
 	t_data			*data;
 	int				id;
+	int				number_of_eating;
 	unsigned long	start_rotation;
 }	t_philo;
 
@@ -62,6 +68,7 @@ int				error_number_of_arguments(int argc);
 int				is_space(char c);
 int				ft_strlen(char *s);
 unsigned long	ft_atou(char *tab);
+void			message(t_data *data, t_philo *philo, int step);
 
 // GET TIME
 unsigned long	get_time_in_ms(void);

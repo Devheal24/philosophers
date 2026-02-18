@@ -2,7 +2,7 @@
 
 RED="\033[31m"
 GREEN="\033[32m"
-YELLOW="\033[33m"
+BLUE="\033[1;36m"
 RESET="\033[0m"
 
 i=1
@@ -18,7 +18,7 @@ tests=(
 
 for t in "${tests[@]}"
 do
-	printf "${YELLOW}Test %d: ./philo %s${RESET}\n" "$i" "$t"
+	printf "${BLUE}Test %d: ./philo %s${RESET}\n" "$i" "$t"
 	i=$((i + 1))
 
 	eval ./philo $t
@@ -34,15 +34,19 @@ i=1
 
 tests2=(
 	"0 800 200 200"
+	"1 800 200 200"
 	"2 200 300 100"
 	"2 200 100 300"
 	"2 200 300 300"
+	"2 800 200 200 0"
 	"2 800 200 200 2"
+	"3 410 200 200"
+	"3 610 200 200"
 )
 
 for t in "${tests2[@]}"
 do
-	printf "${YELLOW}Test %d: ./philo %s${RESET}\n" "$i" "$t"
+	printf "${BLUE}Test %d: ./philo %s${RESET}\n" "$i" "$t"
 	i=$((i + 1))
 
 	eval ./philo $t

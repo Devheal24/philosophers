@@ -6,7 +6,7 @@
 #    By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 15:54:22 by mgarnier          #+#    #+#              #
-#    Updated: 2026/02/16 15:56:19 by mgarnier         ###   ########.fr        #
+#    Updated: 2026/02/18 14:25:56 by mgarnier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ HEADER		= -Iincludes
 SRC			= $(DIR)main.c \
 				$(DIR)structure.c \
 				$(DIR)routine.c \
+				$(DIR)message.c \
 				$(DIR_ERROR)error.c \
 				$(DIR_PARSE)utils.c \
 				$(DIR_PARSE)parse_args.c
