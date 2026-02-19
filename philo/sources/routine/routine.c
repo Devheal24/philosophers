@@ -6,99 +6,57 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 19:40:18 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:57:39 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	a_philo_is_die(t_data *data, t_philo *philo, int code)
+static void	order_passage(t_data *data, t_philo *philo, int *first)
 {
-	if (data->died != 0)
+	if (data->nb_philo % 2 == 0)
 	{
-		unlock_fork(data, philo, code);
-		pthread_mutex_unlock(&data->mutex);
-		return (1);
+		if (*first == 1 && (philo->id + 1) % 2 == 0)
+			usleep(data->time_to_eat * THOUSAND);
+		*first = 0;
 	}
-	return (0);
-}
-
-static int	is_eating(t_data *data, t_philo *philo)
-{
-	lock_fork(data, philo, 1);
-	pthread_mutex_lock(&data->mutex);
-	if (a_philo_is_die(data, philo, 1))
-		return (1);
-	message(data, philo->id, FORK);
-	pthread_mutex_unlock(&data->mutex);
-	if (data->nb_philo == 1)
+	if (data->nb_philo % 2 == 1)
 	{
-		unlock_fork(data, philo, 1);
-		return (1);
+		if ((philo->id + 1) % 2 == 0)
+			usleep(data->time_to_eat * THOUSAND);
+		if (philo->id + 1 == data->nb_philo)
+			usleep((data->time_to_eat + 1) * THOUSAND);
+		if (*first == 0 && (philo->id + 1) % 2 == 1
+			&& philo->id + 1 != data->nb_philo)
+			usleep(data->time_to_eat * THOUSAND);
+		*first = 0;
 	}
-	lock_fork(data, philo, 2);
-	pthread_mutex_lock(&data->mutex);
-	if (a_philo_is_die(data, philo, 2))
-		return (1);
-	message(data, philo->id, FORK);
-	message(data, philo->id, EAT);
-	philo->start_rotation = get_time_in_ms();
-	pthread_mutex_unlock(&data->mutex);
-	usleep(data->time_to_eat * THOUSAND);
-	unlock_fork(data, philo, 2);
-	return (0);
-}
-
-static int	is_sleeping(t_data *data, t_philo *philo)
-{
-	pthread_mutex_lock(&data->mutex);
-	if (data->died != 0)
-	{
-		pthread_mutex_unlock(&data->mutex);
-		return (1);
-	}
-	message(data, philo->id, SLEEP);
-	pthread_mutex_unlock(&data->mutex);
-	usleep(data->time_to_sleep * THOUSAND);
-	return (0);
-}
-
-static int	is_thinking(t_data *data, t_philo *philo)
-{
-	pthread_mutex_lock(&data->mutex);
-	if (data->died != 0)
-	{
-		pthread_mutex_unlock(&data->mutex);
-		return (1);
-	}
-	message(data, philo->id, THINK);
-	pthread_mutex_unlock(&data->mutex);
-	return (0);
 }
 
 void	*routine(void *arg)
 {
-	t_philo			*philo;
-	t_data			*data;
+	t_philo	*philo;
+	int		first;
 
 	philo = (t_philo *)arg;
-	data = (t_data *)philo->data;
-	pthread_mutex_lock(&data->mutex);
-	philo->number_of_eating = data->rotation;
+	first = 1;
+	pthread_mutex_lock(&philo->data->mutex);
+	philo->number_of_eating = philo->data->rotation;
 	philo->start_rotation = get_time_in_ms();
-	pthread_mutex_unlock(&data->mutex);
+	pthread_mutex_unlock(&philo->data->mutex);
 	while (1)
 	{
-		if (is_thinking(data, philo))
+		if (is_thinking(philo->data, philo))
 			break ;
-		if (is_eating(data, philo))
+		order_passage(philo->data, philo, &first);
+		if (is_eating(philo->data, philo))
 			break ;
-		pthread_mutex_lock(&data->mutex);
+		pthread_mutex_lock(&philo->data->mutex);
 		philo->number_of_eating--;
-		pthread_mutex_unlock(&data->mutex);
+		pthread_mutex_unlock(&philo->data->mutex);
 		if (philo->number_of_eating == 0)
 			break ;
-		if (is_sleeping(data, philo))
+		if (is_sleeping(philo->data, philo))
 			break ;
 	}
 	return (NULL);

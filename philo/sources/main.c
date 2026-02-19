@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/18 19:40:59 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/19 15:50:48 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	monitoring(t_data *data, t_philo *philo)
 			i++;
 		}
 		pthread_mutex_unlock(&data->mutex);
+		usleep(1000);
 	}
 }
 
