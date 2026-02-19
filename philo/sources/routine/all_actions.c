@@ -6,11 +6,12 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 15:42:49 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/19 15:43:37 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/19 17:42:40 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <unistd.h>
 
 int	a_philo_is_die(t_data *data, t_philo *philo, int code)
 {
@@ -44,7 +45,10 @@ int	is_eating(t_data *data, t_philo *philo)
 	message(data, philo->id, EAT);
 	philo->start_rotation = get_time_in_ms();
 	pthread_mutex_unlock(&data->mutex);
-	usleep(data->time_to_eat * THOUSAND);
+	if (data->time_to_die > data->time_to_eat)
+		usleep(data->time_to_eat * THOUSAND);
+	else
+		usleep((data->time_to_die + 1) * THOUSAND);
 	unlock_fork(data, philo, 2);
 	return (0);
 }
@@ -59,7 +63,10 @@ int	is_sleeping(t_data *data, t_philo *philo)
 	}
 	message(data, philo->id, SLEEP);
 	pthread_mutex_unlock(&data->mutex);
-	usleep(data->time_to_sleep * THOUSAND);
+	if (data->time_to_die > data->time_to_sleep + data->time_to_eat)
+		usleep(data->time_to_sleep * THOUSAND);
+	else
+		usleep((data->time_to_die - data->time_to_eat + 1) * THOUSAND);
 	return (0);
 }
 
