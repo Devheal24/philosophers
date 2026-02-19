@@ -1,13 +1,13 @@
 *This project has been created as part of the 42 curriculum by mgarnier.*
 
 ![Logo](images/philosophers.jpg)
-# <h1 align="center"><span style="color:red">~PHILOSOPHERS~</span></h1>
+# <h1 align="center"><span style="color:red">📖​PHILOSOPHERS🍝</span></h1>
 
-## <span style="color:yellow">Description</span>
+## <span style="color:green">1️⃣​Description</span>
 
 The purpose of this project is to manage multiple threads who will use the same informations. The use of the tool mutex is necessary to success.
 
-## <span style="color:green">Instructions</span>
+## <span style="color:green">2️⃣​Instructions</span>
 
 `make`
 
@@ -16,7 +16,7 @@ The purpose of this project is to manage multiple threads who will use the same 
 Exemple:
 ![exemple](images/exemple_philo.png)
 
-## <span style="color:purple">Resources</span>
+## <span style="color:green">3️⃣​Resources</span>
 
 I used this [website](https://www.codequoi.com/threads-mutex-et-programmation-concurrente-en-c/#attention-aux-deadlock) to better understand thread and mutex.
 
