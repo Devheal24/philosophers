@@ -5,7 +5,12 @@
 
 ## <span style="color:green">1️⃣​Description</span>
 
-The purpose of this project is to manage multiple threads who will use the same informations. The use of the tool mutex is necessary to success.
+The purpose of this project is to manage multiple threads that share the same information.
+The use of mutexes is essential for correct operation.
+
+In this context, the threads are represented by philosophers, and the mutexes are represented by forks. There is an equal number of philosophers and forks.
+
+Philosophers must perform a series of actions in a specific order, but to do so, each philosopher needs to acquire two forks, which are shared among all the philosophers.
 
 ## <span style="color:green">2️⃣​Instructions</span>
 
