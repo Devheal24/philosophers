@@ -6,13 +6,11 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:27:54 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/20 19:07:22 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/20 19:14:59 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-#include <fcntl.h>
-#include <semaphore.h>
 
 void	free_structure(t_data *data)
 {
