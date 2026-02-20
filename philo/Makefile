@@ -6,12 +6,12 @@
 #    By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 15:54:22 by mgarnier          #+#    #+#              #
-#    Updated: 2026/02/20 15:38:11 by mgarnier         ###   ########.fr        #
+#    Updated: 2026/02/20 18:50:40 by mgarnier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= clang
-CFLAGS		= -Wall -Wextra -Werror -pthread -g
+CFLAGS		= -Wall -Wextra -Werror -pthread -g -fsanitize=thread
 
 # COLOR
 GREEN   := \033[1;38;5;46m

@@ -6,14 +6,14 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 15:42:49 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/19 17:42:40 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/20 18:21:21 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <unistd.h>
 
-int	a_philo_is_die(t_data *data, t_philo *philo, int code)
+static int	a_philo_is_die(t_data *data, t_philo *philo, int code)
 {
 	if (data->died != 0)
 	{

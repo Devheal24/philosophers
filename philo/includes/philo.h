@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/20 15:33:43 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/20 18:21:26 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ unsigned long	get_time_in_ms(void);
 // ROUTINE
 void			*routine(void *arg);
 void			message(t_data *data, int id, int step);
-int				a_philo_is_die(t_data *data, t_philo *philo, int code);
 
 // ACTIONS
 void			lock_fork(t_data *data, t_philo *philo, int first);
