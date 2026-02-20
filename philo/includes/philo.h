@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/19 15:46:09 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/20 15:33:43 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int				error_number_of_arguments(int argc);
 
 // STRUCTURE
 t_data			*initialize_structure(char **argv, int argc);
-t_data			*free_structure(t_data *data);
+void			free_structure(t_data *data);
 
 // UTIlS
 int				is_space(char c);

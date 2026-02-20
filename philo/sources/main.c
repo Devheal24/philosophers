@@ -6,11 +6,12 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/19 17:21:14 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/20 16:19:47 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <pthread.h>
 
 static void	monitoring(t_data *data, t_philo *philo)
 {
@@ -53,7 +54,12 @@ static void	*start_thread(t_data *data, t_philo *philo)
 		philo[i].data = data;
 		philo[i].start_rotation = data->start_time + data->time_to_die;
 		philo[i].number_of_eating = -1;
-		pthread_create(&data->threads[i], NULL, routine, &philo[i]);
+		if (pthread_create(&data->threads[i], NULL, routine, &philo[i]) > 0)
+		{
+			write (2, "System error: pthread creation failed\n", 38);
+			data->died = 1;
+			break ;
+		}
 		i++;
 	}
 	data->start_time = get_time_in_ms();
