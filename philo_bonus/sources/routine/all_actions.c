@@ -6,17 +6,20 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 15:42:49 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/20 18:48:05 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/22 22:49:07 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static int	a_philo_is_die(t_data *data, t_philo *philo, int code)
+static int	a_philo_is_die(t_data *data, int code)
 {
+	sem_wait(data->sem);
 	if (data->died != 0)
 	{
-		unlock_fork(data, philo, code);
+		sem_post(data->fork);
+		if (code == 1)
+			sem_post(data->fork);
 		sem_post(data->sem);
 		return (1);
 	}
@@ -25,20 +28,18 @@ static int	a_philo_is_die(t_data *data, t_philo *philo, int code)
 
 int	is_eating(t_data *data, t_philo *philo)
 {
-	lock_fork(data, philo, 1);
-	sem_wait(data->sem);
-	if (a_philo_is_die(data, philo, 1))
+	sem_wait(data->fork);
+	if (a_philo_is_die(data, 0))
 		return (1);
 	message(data, philo->id, FORK);
 	sem_post(data->sem);
 	if (data->nb_philo == 1)
 	{
-		unlock_fork(data, philo, 1);
+		sem_post(data->fork);
 		return (1);
 	}
-	lock_fork(data, philo, 2);
-	sem_wait(data->sem);
-	if (a_philo_is_die(data, philo, 2))
+	sem_wait(data->fork);
+	if (a_philo_is_die(data, 1))
 		return (1);
 	message(data, philo->id, FORK);
 	message(data, philo->id, EAT);
@@ -48,7 +49,8 @@ int	is_eating(t_data *data, t_philo *philo)
 		usleep(data->time_to_eat * THOUSAND);
 	else
 		usleep((data->time_to_die + 1) * THOUSAND);
-	unlock_fork(data, philo, 2);
+	sem_post(data->fork);
+	sem_post(data->fork);
 	return (0);
 }
 

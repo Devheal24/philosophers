@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/20 18:40:46 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/22 22:45:46 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef struct s_data
 	unsigned long	start_time;
 	int				rotation;
 	int				died;
-	pthread_t		*threads;
 	sem_t			*sem;
-	pthread_mutex_t	*fork;
+	sem_t			*fork;
+	pthread_t		*threads;
 }	t_data;
 
 typedef struct s_philo
