@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:27:54 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/22 22:38:35 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/22 22:54:49 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ t_data	*initialize_structure(char **argv, int argc)
 	data->start_time = get_time_in_ms();
 	data->rotation = (argc == 6) * ft_atou(argv[5]) + (argc == 5) * -1;
 	data = open_sem_t(data);
+	if (!data)
+		return (NULL);
 	data->threads = malloc(sizeof(pthread_t) * data->nb_philo);
 	if (!data->threads)
 	{
