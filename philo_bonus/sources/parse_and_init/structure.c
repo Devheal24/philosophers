@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:27:54 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/23 15:16:48 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/23 16:22:31 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	free_structure(t_data *data)
 	sem_unlink("/my_fork");
 	sem_close(data->sem);
 	sem_unlink("/my_sem");
+	sem_close(data->watchdog);
+	sem_unlink("/my_dog");
 	if (data->pid)
 		free(data->pid);
 	free(data);
@@ -41,6 +43,17 @@ t_data	*open_sem_t(t_data *data)
 		free(data);
 		return (NULL);
 	}
+	sem_unlink("/my_dog");
+	data->watchdog = sem_open("/my_dog", O_CREAT | O_EXCL, 0644, 1);
+	if (data->watchdog == SEM_FAILED)
+	{
+		sem_close(data->sem);
+		sem_unlink("/my_sem");
+		sem_close(data->fork);
+		sem_unlink("/my_fork");
+		free(data);
+		return (NULL);
+	}
 	return (data);
 }
 
@@ -51,6 +64,7 @@ t_data	*initialize_structure(char **argv, int argc)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
+	data->died = 0;
 	data->nb_philo = ft_atou(argv[1]);
 	data->time_to_die = ft_atou(argv[2]);
 	data->time_to_eat = ft_atou(argv[3]);

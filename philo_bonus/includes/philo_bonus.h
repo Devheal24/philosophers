@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/23 15:23:13 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/23 20:00:03 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 	int				died;
 	sem_t			*sem;
 	sem_t			*fork;
+	sem_t			*watchdog;
 }	t_data;
 
 typedef struct s_philo
@@ -76,7 +77,7 @@ unsigned long	ft_atou(char *tab);
 unsigned long	get_time_in_ms(void);
 
 // ROUTINE
-void			*routine(t_philo *philo);
+void			*routine(t_philo *philo, int i);
 void			message(t_data *data, int id, int step);
 
 // ACTIONS

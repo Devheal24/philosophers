@@ -6,13 +6,13 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/23 15:12:44 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/23 19:58:22 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static void	monitoring(t_data *data)
+static void	monitoring(t_data *data, t_philo *philo)
 {
 	pid_t	dead;
 	int		status;
@@ -24,8 +24,8 @@ static void	monitoring(t_data *data)
 		i = 0;
 		while (i < data->nb_philo)
 		{
-			if (data->pid[i] != dead)
-				kill(data->pid[i], SIGTERM);
+			if (dead == data->pid[i])
+				message(data, philo[i].id, DIE);
 			i++;
 		}
 		sem_post(data->sem);
@@ -37,9 +37,10 @@ static void	monitoring(t_data *data)
 
 static void	*start_thread(t_data *data, t_philo *philo)
 {
-	int		i;
+	int	i;
 
 	i = 0;
+	sem_wait(data->watchdog);
 	data->start_time = get_time_in_ms();
 	while (i < data->nb_philo)
 	{
@@ -49,10 +50,11 @@ static void	*start_thread(t_data *data, t_philo *philo)
 		philo[i].number_of_eating = -1;
 		data->pid[i] = fork();
 		if (data->pid[i] == 0)
-			routine(&philo[i]);
+			routine(philo, i);
 		i++;
 	}
-	monitoring(data);
+	if (data->nb_philo != 0)
+		monitoring(data, philo);
 	return (NULL);
 }
 
@@ -78,7 +80,7 @@ int	main(int argc, char **argv)
 	}
 	if (data->rotation != 0)
 		start_thread(data, philo);
-	free(philo);
 	free_structure(data);
+	free(philo);
 	return (0);
 }
