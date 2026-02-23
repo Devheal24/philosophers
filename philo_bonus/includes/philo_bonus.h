@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/22 22:45:46 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/23 15:23:13 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 # include <limits.h>
 # include <semaphore.h>
 # include <fcntl.h>
@@ -39,6 +40,7 @@
 typedef struct s_data
 {
 	int				nb_philo;
+	pid_t			*pid;
 	unsigned long	time_to_die;
 	unsigned long	time_to_eat;
 	unsigned long	time_to_sleep;
@@ -47,7 +49,6 @@ typedef struct s_data
 	int				died;
 	sem_t			*sem;
 	sem_t			*fork;
-	pthread_t		*threads;
 }	t_data;
 
 typedef struct s_philo
@@ -75,7 +76,7 @@ unsigned long	ft_atou(char *tab);
 unsigned long	get_time_in_ms(void);
 
 // ROUTINE
-void			*routine(void *arg);
+void			*routine(t_philo *philo);
 void			message(t_data *data, int id, int step);
 
 // ACTIONS

@@ -6,11 +6,14 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/22 22:37:55 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/23 15:16:36 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h>
 
 static void	order_passage(t_data *data, t_philo *philo, int *first)
 {
@@ -35,17 +38,42 @@ static void	order_passage(t_data *data, t_philo *philo, int *first)
 	}
 }
 
-void	*routine(void *arg)
+void	*monitoring_child(void *arg)
 {
 	t_philo	*philo;
-	int		first;
+	t_data	*data;
 
 	philo = (t_philo *)arg;
+	data = philo->data;
+	(void)philo;
+	while (data->nb_philo > 0)
+	{
+		sem_wait(data->sem);
+		if (philo->number_of_eating == 0)
+		{
+			sem_post(data->sem);
+			exit(0);
+		}
+		if (get_time_in_ms() - philo->start_rotation >= data->time_to_die)
+		{
+			message(data, philo->id, DIE);
+			exit(1);
+		}
+		sem_post(data->sem);
+		usleep(THOUSAND);
+	}
+	exit(0);
+}
+
+void	*routine(t_philo *philo)
+{
+	pthread_t	thread;
+	int			first;
+
 	first = 1;
-	sem_wait(philo->data->sem);
 	philo->number_of_eating = philo->data->rotation;
 	philo->start_rotation = get_time_in_ms();
-	sem_post(philo->data->sem);
+	pthread_create(&thread, NULL, monitoring_child, philo);
 	while (1)
 	{
 		if (is_thinking(philo->data, philo))
@@ -61,5 +89,6 @@ void	*routine(void *arg)
 		if (is_sleeping(philo->data, philo))
 			break ;
 	}
-	return (NULL);
+	pthread_join(thread, NULL);
+	exit(0);
 }

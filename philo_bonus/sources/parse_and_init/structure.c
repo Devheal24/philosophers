@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:27:54 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/22 22:54:49 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/23 15:16:48 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	free_structure(t_data *data)
 	sem_unlink("/my_fork");
 	sem_close(data->sem);
 	sem_unlink("/my_sem");
-	if (data->threads)
-		free(data->threads);
+	if (data->pid)
+		free(data->pid);
 	free(data);
 }
 
@@ -36,9 +36,9 @@ t_data	*open_sem_t(t_data *data)
 	data->fork = sem_open("/my_fork", O_CREAT | O_EXCL, 0644, data->nb_philo);
 	if (data->fork == SEM_FAILED)
 	{
-		free(data);
 		sem_close(data->sem);
 		sem_unlink("/my_sem");
+		free(data);
 		return (NULL);
 	}
 	return (data);
@@ -51,7 +51,6 @@ t_data	*initialize_structure(char **argv, int argc)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-	data->died = 0;
 	data->nb_philo = ft_atou(argv[1]);
 	data->time_to_die = ft_atou(argv[2]);
 	data->time_to_eat = ft_atou(argv[3]);
@@ -61,8 +60,8 @@ t_data	*initialize_structure(char **argv, int argc)
 	data = open_sem_t(data);
 	if (!data)
 		return (NULL);
-	data->threads = malloc(sizeof(pthread_t) * data->nb_philo);
-	if (!data->threads)
+	data->pid = malloc(sizeof(pid_t) * data->nb_philo);
+	if (!data->pid)
 	{
 		free_structure(data);
 		return (NULL);

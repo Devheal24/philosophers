@@ -6,67 +6,53 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/22 22:35:25 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/23 15:12:44 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static void	monitoring(t_data *data, t_philo *philo)
+static void	monitoring(t_data *data)
 {
-	int	i;
+	pid_t	dead;
+	int		status;
+	int		i;
 
-	while (data->nb_philo > 0)
+	dead = waitpid(-1, &status, 0);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
 	{
 		i = 0;
-		sem_wait(data->sem);
 		while (i < data->nb_philo)
 		{
-			if (philo[i].number_of_eating == 0)
-			{
-				sem_post(data->sem);
-				return ;
-			}
-			if (get_time_in_ms() >= philo[i].start_rotation + data->time_to_die)
-			{
-				data->died = 1;
-				message(data, philo[i].id, DIE);
-				sem_post(data->sem);
-				return ;
-			}
+			if (data->pid[i] != dead)
+				kill(data->pid[i], SIGTERM);
 			i++;
 		}
 		sem_post(data->sem);
-		usleep(1000);
 	}
+	i = 0;
+	while (i < data->nb_philo)
+		waitpid(data->pid[i++], NULL, 0);
 }
 
 static void	*start_thread(t_data *data, t_philo *philo)
 {
-	int	i;
+	int		i;
 
-	sem_wait(data->sem);
 	i = 0;
+	data->start_time = get_time_in_ms();
 	while (i < data->nb_philo)
 	{
 		philo[i].id = i;
 		philo[i].data = data;
 		philo[i].start_rotation = data->start_time + data->time_to_die;
 		philo[i].number_of_eating = -1;
-		if (pthread_create(&data->threads[i], NULL, routine, &philo[i]) > 0)
-		{
-			write (2, "System error: pthread creation failed\n", 38);
-			data->died = 1;
-			break ;
-		}
+		data->pid[i] = fork();
+		if (data->pid[i] == 0)
+			routine(&philo[i]);
 		i++;
 	}
-	data->start_time = get_time_in_ms();
-	sem_post(data->sem);
-	monitoring(data, philo);
-	i = 0;
-	while (i < data->nb_philo)
-		pthread_join(data->threads[i++], NULL);
+	monitoring(data);
 	return (NULL);
 }
 
