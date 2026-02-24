@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:27:54 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/24 09:51:15 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:48:28 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_structure(t_data *data)
 	free(data);
 }
 
-t_data	*open_sem_t(t_data *data)
+static t_data	*open_sem_t(t_data *data)
 {
 	data->sem = sem_open("/my_sem", O_CREAT | O_EXCL, 0644, 1);
 	if (data->sem == SEM_FAILED)

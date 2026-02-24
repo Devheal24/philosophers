@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/24 12:41:42 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:50:33 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	*routine(t_philo *philo, int i, int first)
 	philo[i].start_rotation = get_time_in_ms();
 	pthread_create(&thread, NULL, monitoring_child, &philo[i]);
 	pthread_create(&dog, NULL, watchdog, &philo[i]);
-	while (!philo[i].data->died)
+	while (1)
 	{
 		if (is_thinking(philo[i].data, &philo[i]))
 			break ;
