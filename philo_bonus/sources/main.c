@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/24 17:50:03 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 00:31:25 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	monitoring(t_data *data, t_philo *philo)
 		i = 0;
 		while (i < data->nb_philo)
 		{
+			sem_post(data->watchdog);
 			if (dead == data->pid[i])
 				message(data, philo[i].id, DIE);
 			i++;

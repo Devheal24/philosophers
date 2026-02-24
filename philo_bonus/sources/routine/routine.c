@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/24 22:48:14 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 00:38:25 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	order_passage(t_data *data, t_philo *philo, int *first)
 		else
 		{
 			if (*first == 1 && ((philo->id + 1) % 2 == 0
-				|| philo->id + 1 == data->nb_philo))
+					|| philo->id + 1 == data->nb_philo))
 				usleep((data->time_to_eat + 1) * THOUSAND);
 		}
 	}
@@ -64,13 +64,12 @@ static void	*monitoring_child(void *arg)
 	while (data->nb_philo > 0)
 	{
 		sem_wait(data->sem);
-		if (data->died == 1)
+		if (data->died == 1 || philo->number_of_eating == 0)
 		{
 			sem_post(data->sem);
 			return (NULL);
 		}
-		if (philo->number_of_eating == 0
-			|| get_time_in_ms() - philo->start_rotation >= data->time_to_die)
+		if (get_time_in_ms() - philo->start_rotation >= data->time_to_die)
 		{
 			data->died = 1;
 			sem_post(data->watchdog);
@@ -105,6 +104,7 @@ void	*routine(t_philo *philo, int i, int first)
 	philo[i].start_rotation = get_time_in_ms();
 	pthread_create(&thread, NULL, monitoring_child, &philo[i]);
 	pthread_create(&dog, NULL, watchdog, &philo[i]);
+	pthread_detach(dog);
 	while (1)
 	{
 		if (is_thinking(philo[i].data, &philo[i]))
@@ -120,7 +120,6 @@ void	*routine(t_philo *philo, int i, int first)
 			break ;
 	}
 	pthread_join(thread, NULL);
-	pthread_join(dog, NULL);
 	free_all_and_exit(philo, i);
 	exit(0);
 }

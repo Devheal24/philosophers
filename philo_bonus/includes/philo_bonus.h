@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/24 09:59:11 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 00:34:08 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <limits.h>
 # include <semaphore.h>
 # include <fcntl.h>
+# include <signal.h>
 
 # define RED "\033[1;31m"
 # define PURPLE "\033[35m"
