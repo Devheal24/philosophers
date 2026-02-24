@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/23 19:58:22 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/24 09:59:21 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	*start_thread(t_data *data, t_philo *philo)
 		philo[i].number_of_eating = -1;
 		data->pid[i] = fork();
 		if (data->pid[i] == 0)
-			routine(philo, i);
+			routine(philo, i, 1);
 		i++;
 	}
 	if (data->nb_philo != 0)

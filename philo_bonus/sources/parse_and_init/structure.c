@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:27:54 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/23 16:22:31 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/24 09:51:15 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,12 @@ void	free_structure(t_data *data)
 
 t_data	*open_sem_t(t_data *data)
 {
-	sem_unlink("/my_sem");
 	data->sem = sem_open("/my_sem", O_CREAT | O_EXCL, 0644, 1);
 	if (data->sem == SEM_FAILED)
 	{
 		free(data);
 		return (NULL);
 	}
-	sem_unlink("/my_fork");
 	data->fork = sem_open("/my_fork", O_CREAT | O_EXCL, 0644, data->nb_philo);
 	if (data->fork == SEM_FAILED)
 	{
@@ -43,7 +41,6 @@ t_data	*open_sem_t(t_data *data)
 		free(data);
 		return (NULL);
 	}
-	sem_unlink("/my_dog");
 	data->watchdog = sem_open("/my_dog", O_CREAT | O_EXCL, 0644, 1);
 	if (data->watchdog == SEM_FAILED)
 	{
@@ -71,6 +68,9 @@ t_data	*initialize_structure(char **argv, int argc)
 	data->time_to_sleep = ft_atou(argv[4]);
 	data->start_time = get_time_in_ms();
 	data->rotation = (argc == 6) * ft_atou(argv[5]) + (argc == 5) * -1;
+	sem_unlink("/my_sem");
+	sem_unlink("/my_fork");
+	sem_unlink("/my_dog");
 	data = open_sem_t(data);
 	if (!data)
 		return (NULL);
