@@ -6,11 +6,11 @@
 #    By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 15:54:22 by mgarnier          #+#    #+#              #
-#    Updated: 2026/02/23 18:50:40 by mgarnier         ###   ########.fr        #
+#    Updated: 2026/02/24 17:14:53 by mgarnier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			= clang
+CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -pthread -g #-fsanitize=thread
 
 # COLOR

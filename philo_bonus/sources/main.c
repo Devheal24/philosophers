@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/24 09:59:21 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/24 17:50:03 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	monitoring(t_data *data, t_philo *philo)
 		waitpid(data->pid[i++], NULL, 0);
 }
 
-static void	*start_thread(t_data *data, t_philo *philo)
+static void	*start_forks(t_data *data, t_philo *philo)
 {
 	int	i;
 
@@ -49,6 +49,12 @@ static void	*start_thread(t_data *data, t_philo *philo)
 		philo[i].start_rotation = data->start_time + data->time_to_die;
 		philo[i].number_of_eating = -1;
 		data->pid[i] = fork();
+		if (data->pid[i] < 0)
+		{
+			write (2, "fork failed\n", 12);
+			sem_post(data->watchdog);
+			return (NULL);
+		}
 		if (data->pid[i] == 0)
 			routine(philo, i, 1);
 		i++;
@@ -79,7 +85,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (data->rotation != 0)
-		start_thread(data, philo);
+		start_forks(data, philo);
 	free_structure(data);
 	free(philo);
 	return (0);
