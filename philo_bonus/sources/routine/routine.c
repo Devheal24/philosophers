@@ -6,13 +6,13 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/24 10:02:35 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:41:42 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	free_all_and_exit(t_philo *philo, int i)
+static void	free_all_and_exit(t_philo *philo, int i)
 {
 	if (philo[i].number_of_eating == 0)
 	{
@@ -30,11 +30,8 @@ static void	order_passage(t_data *data, t_philo *philo, int *first)
 	if (data->time_to_die < data->time_to_eat || data->nb_philo == 1)
 		return ;
 	if (data->nb_philo % 2 == 0)
-	{
 		if (*first == 1 && (philo->id + 1) % 2 == 0)
 			usleep(data->time_to_eat * THOUSAND);
-		*first = 0;
-	}
 	if (data->nb_philo % 2 == 1)
 	{
 		if ((philo->id + 1) % 2 == 0)
@@ -43,12 +40,19 @@ static void	order_passage(t_data *data, t_philo *philo, int *first)
 			usleep((data->time_to_eat + 1) * THOUSAND);
 		if (*first == 0 && (philo->id + 1) % 2 == 1
 			&& philo->id + 1 != data->nb_philo)
-			usleep(data->time_to_eat * THOUSAND);
-		*first = 0;
+		{
+			if (get_time_in_ms() + data->time_to_eat
+				>= philo->start_rotation + data->time_to_die)
+				usleep((philo->start_rotation + data->time_to_die + 1
+						- get_time_in_ms()) * THOUSAND);
+			else
+				usleep(data->time_to_eat * THOUSAND);
+		}
 	}
+	*first = 0;
 }
 
-void	*monitoring_child(void *arg)
+static void	*monitoring_child(void *arg)
 {
 	t_philo	*philo;
 	t_data	*data;
@@ -77,7 +81,7 @@ void	*monitoring_child(void *arg)
 	return (NULL);
 }
 
-void	*watchdog(void *arg)
+static void	*watchdog(void *arg)
 {
 	t_philo	*philo;
 

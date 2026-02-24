@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 15:42:49 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/22 22:49:07 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/24 12:45:53 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ static int	a_philo_is_die(t_data *data, int code)
 	sem_wait(data->sem);
 	if (data->died != 0)
 	{
-		sem_post(data->fork);
-		if (code == 1)
+		if (code >= 1)
+			sem_post(data->fork);
+		if (code == 2)
 			sem_post(data->fork);
 		sem_post(data->sem);
 		return (1);
@@ -26,20 +27,30 @@ static int	a_philo_is_die(t_data *data, int code)
 	return (0);
 }
 
-int	is_eating(t_data *data, t_philo *philo)
+static int	is_only_one_philo(t_data *data)
 {
-	sem_wait(data->fork);
-	if (a_philo_is_die(data, 0))
-		return (1);
-	message(data, philo->id, FORK);
-	sem_post(data->sem);
 	if (data->nb_philo == 1)
 	{
 		sem_post(data->fork);
 		return (1);
 	}
+	return (0);
+}
+
+int	is_eating(t_data *data, t_philo *philo)
+{
+	if (a_philo_is_die(data, 0))
+		return (1);
+	sem_post(data->sem);
 	sem_wait(data->fork);
 	if (a_philo_is_die(data, 1))
+		return (1);
+	message(data, philo->id, FORK);
+	sem_post(data->sem);
+	if (is_only_one_philo(data))
+		return (1);
+	sem_wait(data->fork);
+	if (a_philo_is_die(data, 2))
 		return (1);
 	message(data, philo->id, FORK);
 	message(data, philo->id, EAT);
@@ -56,12 +67,8 @@ int	is_eating(t_data *data, t_philo *philo)
 
 int	is_sleeping(t_data *data, t_philo *philo)
 {
-	sem_wait(data->sem);
-	if (data->died != 0)
-	{
-		sem_post(data->sem);
+	if (a_philo_is_die(data, 0))
 		return (1);
-	}
 	message(data, philo->id, SLEEP);
 	sem_post(data->sem);
 	if (data->time_to_die > data->time_to_sleep + data->time_to_eat)
@@ -73,12 +80,8 @@ int	is_sleeping(t_data *data, t_philo *philo)
 
 int	is_thinking(t_data *data, t_philo *philo)
 {
-	sem_wait(data->sem);
-	if (data->died != 0)
-	{
-		sem_post(data->sem);
+	if (a_philo_is_die(data, 0))
 		return (1);
-	}
 	message(data, philo->id, THINK);
 	sem_post(data->sem);
 	return (0);
