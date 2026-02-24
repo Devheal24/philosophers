@@ -30,7 +30,7 @@ philosophers bonus:
 
 `make`
 
-`./philo [nb_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [optional_number_of_times_each_philosopher_must_eat]`
+`./philo_bonus [nb_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [optional_number_of_times_each_philosopher_must_eat]`
 
 Exemple:
 ![exemple](images/exemple_philo.png)
