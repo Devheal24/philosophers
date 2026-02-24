@@ -1,14 +1,14 @@
 *This project has been created as part of the 42 curriculum by mgarnier.*
 
 ![Logo](images/philosophers.jpg)
-# <h1 align="center"><span style="color:red">📖​PHILOSOPHERS🍝</span></h1>
+# <h1 align="center"><span style="color:red">📖​PHILOSOPHERS_BONUS🍝</span></h1>
 
 ## <span style="color:green">1️⃣​Description</span>
 
-The purpose of this project is to manage multiple threads that share the same information.
-The use of mutexes is essential for correct operation.
+The purpose of this project is to manage multiple child process with two threads in to ensure there are no dead.
+The use of semaphores is essential for correct operation.
 
-In this context, the threads are represented by philosophers, and the mutexes are represented by forks. There is an equal number of philosophers and forks.
+In this context, the child process are represented by philosophers, and the semaphores are represented by forks. There is an equal number of philosophers and forks.
 
 Philosophers must perform a series of actions in a specific order, but to do so, each philosopher needs to acquire two forks, which are shared among all the philosophers.
 
