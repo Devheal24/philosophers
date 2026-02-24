@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -pthread -g -fsanitize=thread
+CFLAGS		= -Wall -Wextra -Werror -pthread -g #-fsanitize=thread
 
 # COLOR
 GREEN   := \033[1;38;5;46m
