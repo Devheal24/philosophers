@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/20 19:10:11 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/24 22:47:30 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,28 @@ static void	order_passage(t_data *data, t_philo *philo, int *first)
 	if (data->time_to_die < data->time_to_eat || data->nb_philo == 1)
 		return ;
 	if (data->nb_philo % 2 == 0)
-	{
 		if (*first == 1 && (philo->id + 1) % 2 == 0)
 			usleep(data->time_to_eat * THOUSAND);
-		*first = 0;
-	}
 	if (data->nb_philo % 2 == 1)
 	{
-		if ((philo->id + 1) % 2 == 0)
-			usleep(data->time_to_eat * THOUSAND);
-		if (philo->id + 1 == data->nb_philo)
-			usleep((data->time_to_eat + 1) * THOUSAND);
-		if (*first == 0 && (philo->id + 1) % 2 == 1
-			&& philo->id + 1 != data->nb_philo)
-			usleep(data->time_to_eat * THOUSAND);
-		*first = 0;
+		if (data->time_to_eat >= data->time_to_sleep)
+		{
+			if ((philo->id + 1) % 2 == 0)
+				usleep(data->time_to_eat * THOUSAND);
+			if (philo->id + 1 == data->nb_philo)
+				usleep((data->time_to_eat + 1) * THOUSAND);
+			if (*first == 0 && (philo->id + 1) % 2 == 1
+				&& philo->id + 1 != data->nb_philo)
+				usleep(data->time_to_eat * THOUSAND);
+		}
+		else
+		{
+			if (*first == 1 && ((philo->id + 1) % 2 == 0
+				|| philo->id + 1 == data->nb_philo))
+				usleep((data->time_to_eat) * THOUSAND);
+		}
 	}
+	*first = 0;
 }
 
 void	*routine(void *arg)
