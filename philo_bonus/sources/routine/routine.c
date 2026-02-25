@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/25 01:10:41 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 12:05:19 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,77 +25,45 @@ static void	free_all_and_exit(t_philo *philo, int i)
 	exit(1);
 }
 
+static void	wait_calculator(t_data *data, t_philo *philo, int *first)
+{
+	if (data->time_to_eat >= data->time_to_sleep)
+	{
+		if ((philo->id + 1) % 2 == 0 || philo->id + 1 == data->nb_philo)
+			usleep((data->time_to_eat) * THOUSAND);
+		if (*first == 0 && (philo->id + 1) % 2 == 1
+			&& philo->id + 1 != data->nb_philo)
+		{
+			if (get_time_in_ms() + data->time_to_eat
+				>= philo->start_rotation + data->time_to_die)
+			{
+				usleep((philo->start_rotation + data->time_to_die + 1
+						- get_time_in_ms()) * THOUSAND);
+			}
+			else
+				usleep(data->time_to_eat * THOUSAND);
+		}
+	}
+	else
+		if (*first == 1 && ((philo->id + 1) % 2 == 0
+				|| philo->id + 1 == data->nb_philo))
+			usleep((data->time_to_eat) * THOUSAND);
+}
+
 static void	order_passage(t_data *data, t_philo *philo, int *first)
 {
 	if (data->time_to_die < data->time_to_eat || data->nb_philo == 1)
 		return ;
 	if (data->nb_philo % 2 == 0)
+	{
 		if (*first == 1 && (philo->id + 1) % 2 == 0)
 			usleep(data->time_to_eat * THOUSAND);
+	}
 	if (data->nb_philo % 2 == 1)
 	{
-		if (data->time_to_eat >= data->time_to_sleep)
-		{
-			if ((philo->id + 1) % 2 == 0 || philo->id + 1 == data->nb_philo)
-				usleep((data->time_to_eat) * THOUSAND);
-			if (*first == 0 && (philo->id + 1) % 2 == 1
-				&& philo->id + 1 != data->nb_philo)
-			{
-				if (get_time_in_ms() + data->time_to_eat
-					>= philo->start_rotation + data->time_to_die)
-					usleep((philo->start_rotation + data->time_to_die + 1
-							- get_time_in_ms()) * THOUSAND);
-				else
-					usleep(data->time_to_eat * THOUSAND);
-			}
-		}
-		else
-			if (*first == 1 && ((philo->id + 1) % 2 == 0
-					|| philo->id + 1 == data->nb_philo))
-				usleep((data->time_to_eat) * THOUSAND);
+		wait_calculator(data, philo, first);
 	}
 	*first = 0;
-}
-
-static void	*monitoring_child(void *arg)
-{
-	t_philo	*philo;
-	t_data	*data;
-
-	philo = (t_philo *)arg;
-	data = philo->data;
-	while (data->nb_philo > 0)
-	{
-		sem_wait(data->sem);
-		if (data->died == 1 || philo->number_of_eating == 0)
-		{
-			sem_post(data->sem);
-			return (NULL);
-		}
-		if (get_time_in_ms() - philo->start_rotation >= data->time_to_die)
-		{
-			data->died = 1;
-			sem_post(data->watchdog);
-			sem_post(data->sem);
-			return (NULL);
-		}
-		sem_post(data->sem);
-		usleep(THOUSAND);
-	}
-	return (NULL);
-}
-
-static void	*watchdog(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	sem_wait(philo->data->watchdog);
-	sem_post(philo->data->watchdog);
-	sem_wait(philo->data->sem);
-	philo->data->died = 1;
-	sem_post(philo->data->sem);
-	return (NULL);
 }
 
 void	*routine(t_philo *philo, int i, int first)

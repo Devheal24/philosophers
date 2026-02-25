@@ -6,7 +6,7 @@
 #    By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/12 15:54:22 by mgarnier          #+#    #+#              #
-#    Updated: 2026/02/25 00:48:52 by mgarnier         ###   ########.fr        #
+#    Updated: 2026/02/25 10:42:37 by mgarnier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC			= $(DIR)main.c \
 				$(DIR_PARSE)structure.c \
 				$(DIR_ROUTINE)routine.c \
 				$(DIR_ROUTINE)message.c \
+				$(DIR_ROUTINE)monitoring.c \
 				$(DIR_ROUTINE)all_actions.c \
 				$(DIR_PARSE)error.c \
 				$(DIR_PARSE)utils.c \

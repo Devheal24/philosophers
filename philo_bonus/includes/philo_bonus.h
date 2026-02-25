@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/25 00:34:08 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 10:43:18 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ unsigned long	get_time_in_ms(void);
 // ROUTINE
 void			*routine(t_philo *philo, int i, int first);
 void			message(t_data *data, int id, int step);
+void			*monitoring_child(void *arg);
+void			*watchdog(void *arg);
 
 // ACTIONS
 void			lock_fork(t_data *data, t_philo *philo, int first);
