@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 15:42:49 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/24 12:45:53 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 13:39:21 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ int	is_sleeping(t_data *data, t_philo *philo)
 	if (data->time_to_die > data->time_to_sleep + data->time_to_eat)
 		usleep(data->time_to_sleep * THOUSAND);
 	else
+	{
 		usleep((data->time_to_die - data->time_to_eat + 1) * THOUSAND);
+		return (1);
+	}
 	return (0);
 }
 

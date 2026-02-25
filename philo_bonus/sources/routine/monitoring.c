@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:41:23 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/25 10:43:38 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 13:59:21 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	*monitoring_child(void *arg)
 		if (get_time_in_ms() - philo->start_rotation >= data->time_to_die)
 		{
 			data->died = 1;
-			sem_post(data->watchdog);
 			sem_post(data->sem);
 			return (NULL);
 		}

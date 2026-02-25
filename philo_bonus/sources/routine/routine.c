@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/25 12:05:19 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 13:59:26 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,29 @@ static void	order_passage(t_data *data, t_philo *philo, int *first)
 	*first = 0;
 }
 
+static void	wait_until_all_finish_meal(t_data *data, t_philo *philo, int i)
+{
+	sem_wait(data->sem);
+	if (philo[i].id + 1 % 2 == 1 && data->died == 0)
+	{
+		sem_post(data->sem);
+		if (data->time_to_eat > data->time_to_sleep)
+			usleep((data->time_to_eat - data->time_to_sleep) * THOUSAND);
+		else if (data->time_to_eat == data->time_to_sleep)
+			usleep(data->time_to_eat * THOUSAND);
+		if (data->nb_philo % 2 == 1 && philo[i].id + 1 != data->nb_philo)
+		{
+			if (data->time_to_eat > data->time_to_sleep)
+				usleep((data->time_to_eat - data->time_to_sleep) * THOUSAND);
+			else if (data->time_to_eat == data->time_to_sleep)
+				usleep(data->time_to_eat * THOUSAND);
+		}
+	}
+	else
+		sem_post(data->sem);
+	sem_post(data->watchdog);
+}
+
 void	*routine(t_philo *philo, int i, int first)
 {
 	pthread_t	thread;
@@ -75,7 +98,6 @@ void	*routine(t_philo *philo, int i, int first)
 	philo[i].start_rotation = get_time_in_ms();
 	pthread_create(&thread, NULL, monitoring_child, &philo[i]);
 	pthread_create(&dog, NULL, watchdog, &philo[i]);
-	pthread_detach(dog);
 	while (1)
 	{
 		if (is_thinking(philo[i].data, &philo[i]))
@@ -91,6 +113,8 @@ void	*routine(t_philo *philo, int i, int first)
 			break ;
 	}
 	pthread_join(thread, NULL);
+	wait_until_all_finish_meal(philo->data, philo, i);
+	pthread_join(dog, NULL);
 	free_all_and_exit(philo, i);
 	exit(0);
 }
