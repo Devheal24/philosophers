@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/25 18:00:35 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 20:29:34 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ static void	order_passage(t_data *data, t_philo *philo, int *first)
 	{
 		if (*first == 1 && (philo->id + 1) % 2 == 0)
 			usleep(data->time_to_eat * THOUSAND);
+		else if (*first == 0 && (philo->id + 1) % 2 == 1
+			&& data->time_to_die / 2 < data->time_to_eat)
+			usleep((data->start_time + data->time_to_die
+					- get_time_in_ms()) * THOUSAND);
 	}
 	if (data->nb_philo % 2 == 1)
 	{
