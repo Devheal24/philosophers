@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:41:23 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/25 13:59:21 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 18:01:10 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*monitoring_child(void *arg)
 	while (data->nb_philo > 0)
 	{
 		sem_wait(data->sem);
-		if (data->died == 1 || philo->number_of_eating == 0)
+		if (data->died == 1 || philo->nb_eating == 0)
 		{
 			sem_post(data->sem);
 			return (NULL);

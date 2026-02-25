@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:57:41 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/25 10:43:18 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 18:00:06 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_philo
 {
 	t_data			*data;
 	int				id;
-	int				number_of_eating;
+	int				nb_eating;
 	unsigned long	start_rotation;
 }	t_philo;
 

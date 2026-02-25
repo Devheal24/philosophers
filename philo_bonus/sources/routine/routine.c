@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:29:44 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/25 17:55:30 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 18:00:35 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	free_all_and_exit(t_philo *philo, int i)
 {
-	if (philo[i].number_of_eating == 0)
+	if (philo[i].nb_eating == 0)
 	{
 		free_structure(philo->data);
 		free(philo);
@@ -100,7 +100,7 @@ void	*routine(t_philo *philo, int i, int first)
 	pthread_t	thread;
 	pthread_t	dog;
 
-	philo[i].number_of_eating = philo[i].data->rotation;
+	philo[i].nb_eating = philo[i].data->rotation;
 	philo[i].start_rotation = get_time_in_ms();
 	pthread_create(&thread, NULL, monitoring_child, &philo[i]);
 	pthread_create(&dog, NULL, watchdog, &philo[i]);
@@ -112,9 +112,9 @@ void	*routine(t_philo *philo, int i, int first)
 		if (is_eating(philo[i].data, &philo[i]))
 			break ;
 		sem_wait(philo[i].data->sem);
-		philo[i].number_of_eating--;
+		philo[i].nb_eating--;
 		sem_post(philo[i].data->sem);
-		if (philo[i].number_of_eating == 0 || is_sleeping(philo[i].data, &philo[i]))
+		if (philo[i].nb_eating == 0 || is_sleeping(philo[i].data, &philo[i]))
 			break ;
 	}
 	pthread_join(thread, NULL);

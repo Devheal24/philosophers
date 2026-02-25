@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 15:56:53 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/25 00:55:03 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/25 18:00:54 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	*start_forks(t_data *data, t_philo *philo)
 		philo[i].id = i;
 		philo[i].data = data;
 		philo[i].start_rotation = data->start_time + data->time_to_die;
-		philo[i].number_of_eating = -1;
+		philo[i].nb_eating = -1;
 		data->pid[i] = fork();
 		if (data->pid[i] < 0)
 		{
