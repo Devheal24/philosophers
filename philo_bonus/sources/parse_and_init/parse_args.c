@@ -6,7 +6,7 @@
 /*   By: mgarnier <mgarnier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 16:40:40 by mgarnier          #+#    #+#             */
-/*   Updated: 2026/02/20 18:35:22 by mgarnier         ###   ########.fr       */
+/*   Updated: 2026/02/26 16:45:48 by mgarnier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	is_not_a_valid_number(char *argv)
 	while (argv[i] >= '0' && argv[i] <= '9')
 	{
 		result = (result * 10) + (argv[i] - '0');
+		if (result < 0)
+			return (1);
 		i++;
 	}
 	if (argv[i] != '\0' || result > INT_MAX)
